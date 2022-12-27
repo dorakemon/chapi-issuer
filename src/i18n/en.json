@@ -1,0 +1,12 @@
+{
+  "shared": {},
+  "pages": {
+    "issuer": {
+      "title": "Issue Verifiable Credential"
+    }
+  },
+  "components": {},
+  "features": {
+    "issueUnboundDialog": {}
+  }
+}

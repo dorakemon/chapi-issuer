@@ -1,0 +1,40 @@
+{
+  "consts": {
+    "studentCardBound": "学生証 (bound)",
+    "driverCardBound": "運転免許証 (bound)",
+    "movieTicketUnbound": "映画館のチケット (unbound)"
+  },
+  "pages": {
+    "issuer": {
+      "title": "Verifiable Credentialの発行"
+    }
+  },
+  "components": {
+    "inputDocumentCard": {
+      "button": "発行"
+    }
+  },
+  "features": {
+    "issueUnbound": {
+      "step.agreeCred": "受け取るクレデンシャルの同意",
+      "step.saveVc": "VCの保存",
+      "step.viewFinal": "完了",
+      "agreeCred.title": "受け取るクレデンシャル",
+      "agreeCred.cont1": "Issuerにより提示されたVCの中身です",
+      "agreeCred.cont2": "発行に同意をしますか?",
+      "agreeCred.btn": "同意",
+      "saveVc.title": "受け取るクレデンシャル",
+      "saveVc.cont1": "Issuerにより作成されたVCを検証します",
+      "saveVc.cont2": "VCをWalletに保存しますか?",
+      "saveVc.btn": "VCの保存",
+      "saveVc.verifyBtn": "検証する",
+      "viewFinal.title": "レスポンス",
+      "viewFinal.btn": "閉じる",
+      "viewFinal.success": "保存に成功しました",
+      "viewFinal.fail": "保存に失敗しました",
+      "verifyStatus.valid": "検証成功",
+      "verifyStatus.invalid": "検証失敗",
+      "verifyStatus.unchecked": "未検証"
+    }
+  }
+}

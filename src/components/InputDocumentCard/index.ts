@@ -1,0 +1,1 @@
+export { InputDocumentCard } from "./InputDocumentCard";
