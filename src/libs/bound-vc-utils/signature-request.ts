@@ -52,7 +52,7 @@ export const createSignatureRequest = async (
   }
 };
 
-type VerifySignatureRequetProps = {
+export type VerifySignatureRequetProps = {
   commitment: string;
   proofOfHiddenMessages: string;
   challengeHash: string;

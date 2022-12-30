@@ -7,7 +7,7 @@ export const MovieDocument: InputDocument = {
     "https://schema.org",
   ],
   id: "http://example.org/credentials/4/1",
-  type: "VerifiableCredential",
+  type: ["VerifiableCredential", "StudentCard"],
   issuer: "did:example:issuer4",
   issuanceDate: "2021-07-01T00:00:00Z",
   expirationDate: "2022-07-01T00:00:00Z",
@@ -17,8 +17,5 @@ export const MovieDocument: InputDocument = {
     givenName: "Jane",
     familyName: "Doe",
     birthDate: "1990-12-31",
-    knows: {
-      id: "did:example:holder1",
-    },
   },
 };

@@ -7,6 +7,6 @@ import { countMessages } from "./count-messages";
 describe("bound-vc-utils/count-messages", () => {
   it("Movie Input Document", async () => {
     const count = await countMessages(MovieDocument);
-    expect(count).toEqual(60);
+    expect(count).toEqual(56);
   });
 });

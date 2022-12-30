@@ -13,7 +13,6 @@ export const uint8ArrayToBase64 = (uint8Array: Uint8Array) => {
  * @returns
  */
 export const base64ToUint8Array = (base64Str: string): Uint8Array => {
-  console.log(base64Str);
   const b = atob(base64Str)
     .split("")
     .map((c) => c.charCodeAt(0));
