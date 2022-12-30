@@ -28,12 +28,14 @@ export const useIssueBlindUnboundVc = () => {
       // NOTE: credentialのissuerをdidkeyのcontrollerに変更する
       { ...inputDocument, issuer: keyObj.controller },
       {
-        suite: new BoundBbsTermwiseSignature2022({ key: keyObj }),
+        suite: new BoundBbsTermwiseSignature2022({
+          key: keyObj,
+          holderSecretCommitment: commitment,
+        }),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
         documentLoader: overrideDocumentLoader([]),
-        expansionMap: false,
-        compactProof: true,
-        holderSecretCommitment: commitment,
+        expansionMap: undefined,
+        compactProof: false,
       }
     );
     setBlindVc(issuedVC);
