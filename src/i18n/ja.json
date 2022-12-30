@@ -15,12 +15,52 @@
     }
   },
   "features": {
+    "issueBound": {
+      "step": {
+        "agreeCred": "受け取るクレデンシャルの同意",
+        "createCommitment": "コミットメントの作成",
+        "receiveCommitment": "コミットメントの検証",
+        "saveVc": "VCの保存",
+        "viewFinal": "完了"
+      },
+      "agreeCred": {
+        "title": "受け取るクレデンシャル",
+        "cont1": "Issuerから提示されたVCの中身です",
+        "cont2": "発行に同意をしますか?",
+        "btn": "同意"
+      },
+      "createCommitment": {
+        "title": "コミットメント作成のためのパラメータ",
+        "cont1": "Issuerにより提示されたコミットメントを作成するためのパラメータです",
+        "cont2": "これらのパラメータを用いてコミットメントを作成しますか？",
+        "btn": "作成"
+      },
+      "receiveCommitment": {
+        "title": "コミットメントの検証",
+        "cont1": "Holderが作成したコミットメントをIssuerが検証します",
+        "cont2": "検証に成功した場合にVCが発行されます",
+        "btn": "発行"
+      },
+      "saveVc": {
+        "title": "受け取るクレデンシャル",
+        "cont1": "VCをWalletに保存しますか?",
+        "cont2": "",
+        "btn": "VCの保存"
+      },
+      "viewFinal": {
+        "title": "レスポンス",
+        "btn": "閉じる"
+      },
+      "verifyStatus.valid": "検証成功",
+      "verifyStatus.invalid": "検証失敗",
+      "verifyStatus.unchecked": "未検証"
+    },
     "issueUnbound": {
       "step.agreeCred": "受け取るクレデンシャルの同意",
       "step.saveVc": "VCの保存",
       "step.viewFinal": "完了",
       "agreeCred.title": "受け取るクレデンシャル",
-      "agreeCred.cont1": "Issuerにより提示されたVCの中身です",
+      "agreeCred.cont1": "Issuerから提示されたVCの中身です",
       "agreeCred.cont2": "発行に同意をしますか?",
       "agreeCred.btn": "同意",
       "saveVc.title": "受け取るクレデンシャル",

@@ -1,42 +1,46 @@
 import { Bls12381G2KeyPair } from "@zkp-ld/bls12381-key-pair";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
-import { IssuerKeyObj, MovieDocument } from "@/domain/constants";
-import { SignatureRequest } from "@/domain/models";
 import {
-  countMessages,
   verifySignatureRequest,
   VerifySignatureRequetProps,
 } from "@/libs/bound-vc-utils";
 
+import { VerifyStatus } from "../constants/verify-status";
+
 export const useVerifySignatureRequest = () => {
-  const [sigRequest, setSigRequest] = useState<SignatureRequest | null>(null);
+  const [sigRequestStatus, setSigRequestStatus] =
+    useState<VerifyStatus>("unchecked");
+
+  const initializeSigRequestStatus = useCallback(
+    () => setSigRequestStatus("unchecked"),
+    []
+  );
 
   const verifySignatureRequestHandler = async (props: {
     commitment: string;
     proofOfHiddenMessages: string;
     challengeHash: string;
-    // publicKey: Bls12381G2KeyPair;
-    // nonce: string;
+    publicKey: Bls12381G2KeyPair;
+    nonce: string;
+    messageCount: number;
   }) => {
-    const messageCount = await countMessages(MovieDocument);
-    const issuerPublicKey = await Bls12381G2KeyPair.fromJwk({
-      publicKeyJwk: IssuerKeyObj.public,
-    });
-
     const request: VerifySignatureRequetProps = {
       commitment: props.commitment,
       proofOfHiddenMessages: props.proofOfHiddenMessages,
       challengeHash: props.challengeHash,
-      messageCount,
-      publicKey: issuerPublicKey,
-      nonce: "random-nonce",
+      messageCount: props.messageCount,
+      publicKey: props.publicKey,
+      nonce: props.nonce,
     };
 
     const verified = await verifySignatureRequest(request);
-    // setSigRequest(signatureRequest);
-    console.log(verified);
+    setSigRequestStatus(verified ? "valid" : "invalid");
   };
 
-  return { sigRequest, setSigRequest, verifySignatureRequestHandler };
+  return {
+    sigRequestStatus,
+    verifySignatureRequestHandler,
+    initializeSigRequestStatus,
+  };
 };

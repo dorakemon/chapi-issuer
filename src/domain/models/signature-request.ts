@@ -8,3 +8,12 @@ export type SignatureRequest = {
   challengeHash: string;
   blindingFactor: string;
 };
+
+/**
+ * @description Parameters for creating Signature Request
+ */
+export type SignatureRequestInput = {
+  issuerDidKey: string;
+  messageCount: number;
+  nonce: string;
+};

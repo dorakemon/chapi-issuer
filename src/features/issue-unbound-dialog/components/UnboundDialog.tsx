@@ -6,7 +6,7 @@ import { CustomizedSteppers } from "@/components/Stepper";
 import { InputDocument } from "@/domain/models";
 import { useStepper } from "@/hooks";
 
-import { StepperList, StepperTitles } from "../constants/stepper";
+import { StepperInfo, StepperList, StepperTitles } from "../constants/stepper";
 import { VerifyChipStyle } from "../constants/verify-status";
 import { useIssueUnboundVc } from "../hooks/useIssueUnboundVc";
 import { useStoreUnboundVc } from "../hooks/useStoreUnboundVc";
@@ -27,9 +27,8 @@ export const UnboundDialog: React.FC<Props> = memo((props) => {
     keyPrefix: "features.issueUnbound",
   });
 
-  const { activeStep, nextStep, initializeStep } = useStepper(
-    StepperTitles.length
-  );
+  const { activeStep, activeStepIndex, nextStep, initializeStep } =
+    useStepper(StepperList);
   const {
     vc,
     setVc,
@@ -60,10 +59,10 @@ export const UnboundDialog: React.FC<Props> = memo((props) => {
   };
 
   const buttonHandler = async () => {
-    if (activeStep === 0) {
+    if (activeStep === "AgreeCred") {
       await issueVcHandler(props.inputDocument);
       nextStep();
-    } else if (activeStep === 1) {
+    } else if (activeStep === "SaveVc") {
       if (!vc) return;
       if (vcFormatError) return;
       await verifyVcHandler(vc);
@@ -86,41 +85,45 @@ export const UnboundDialog: React.FC<Props> = memo((props) => {
       <DialogTitle>
         <CustomizedSteppers
           steps={StepperTitles.map((e) => t(e))}
-          activeStep={activeStep}
+          activeStep={activeStepIndex}
         />
       </DialogTitle>
-      {activeStep === 0 ? (
+      {activeStep === "AgreeCred" ? (
         <AgreeCredential
-          title={t(StepperList[0].title)}
-          contentTextList={StepperList[0].contentTextList?.map((e) => t(e))}
+          title={t(StepperInfo[activeStep].title)}
+          contentTextList={StepperInfo[activeStep].contentTextList?.map((e) =>
+            t(e)
+          )}
           inputDocument={props.inputDocument}
-          btnText={t(StepperList[0].btnText)}
+          btnText={t(StepperInfo[activeStep].btnText)}
           onClick={buttonHandler}
         />
       ) : null}
-      {activeStep === 1 && vc ? (
+      {activeStep === "SaveVc" && vc ? (
         <SaveVc
-          title={t(StepperList[1].title)}
-          contentTextList={StepperList[1].contentTextList?.map((e) => t(e))}
+          title={t(StepperInfo[activeStep].title)}
+          contentTextList={StepperInfo[activeStep].contentTextList?.map((e) =>
+            t(e)
+          )}
           vc={vc}
           setVc={setVc}
           setVcFormatError={setVcFormatError}
           chipText={t(VerifyChipStyle[verifyStatus].text)}
           chipColor={VerifyChipStyle[verifyStatus].color}
           chipVariant={VerifyChipStyle[verifyStatus].variant}
-          btnText={t(StepperList[1].btnText)}
+          btnText={t(StepperInfo[activeStep].btnText)}
           btnDisabled={verifyStatus !== "valid"}
           onClick={buttonHandler}
           verifyBtnText={t("saveVc.verifyBtn")}
           onVerifyClick={() => verifyVcHandler(vc)}
         />
       ) : null}
-      {activeStep === 2 ? (
+      {activeStep === "ViewFinal" ? (
         <ViewFinal
           title={
             storeResult !== null ? t("viewFinal.success") : t("viewFinal.fail")
           }
-          btnText={t(StepperList[2].btnText)}
+          btnText={t(StepperInfo[activeStep].btnText)}
           onClick={buttonHandler}
         />
       ) : null}

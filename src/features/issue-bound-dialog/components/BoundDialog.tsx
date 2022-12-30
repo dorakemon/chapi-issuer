@@ -1,23 +1,33 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
+import { Dialog, DialogTitle } from "@mui/material";
+import { Bls12381G2KeyPair } from "@zkp-ld/bls12381-key-pair";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 
 import { CustomizedSteppers } from "@/components/Stepper";
-import { MovieDocument } from "@/domain/constants";
+import { IssuerKeyObj } from "@/domain/constants";
 import { InputDocument } from "@/domain/models";
 import { useStepper } from "@/hooks";
 
-import { StepperTitles } from "../constants/stepper";
+import { StepperInfo, StepperList, StepperTitles } from "../constants/stepper";
 import { useCreateSignatureRequest } from "../hooks/useCreateSignatureRequest";
+import { useCreateSignatureRequestInput } from "../hooks/useCreateSignatureRequestInput";
 import { useIssueBlindUnboundVc } from "../hooks/useIssueBlindBoundVc";
 import { useUnblindBoundVc } from "../hooks/useUnblindBoundVc";
 import { useVerifyBoundVc } from "../hooks/useVerifyBoundVc";
 import { useVerifySignatureRequest } from "../hooks/useVerifySignatureRequest";
+
+import { AgreeCredential } from "./steppers/AgreeCredential";
+import { CreateCommitment } from "./steppers/CreateCommitment";
+import { ReceiveCommitment } from "./steppers/ReceiveCommitment";
+import { SaveVc } from "./steppers/SaveVc";
+import { ViewFinal } from "./steppers/ViewFinal";
+
+const issuerKey = await Bls12381G2KeyPair.fromJwk({
+  id: IssuerKeyObj.didkey,
+  controller: IssuerKeyObj.controller,
+  publicKeyJwk: IssuerKeyObj.public,
+  privateKeyJwk: IssuerKeyObj.private,
+});
 
 type Props = {
   open: boolean;
@@ -26,18 +36,66 @@ type Props = {
 };
 
 export const BoundDialog: React.FC<Props> = memo((props) => {
-  const { activeStep, nextStep, initializeStep } = useStepper(
-    StepperTitles.length
-  );
-  const { sigRequest, createSignatureRequestHandler } =
+  const { t } = useTranslation("translation", {
+    keyPrefix: "features.issueBound",
+  });
+
+  const { activeStep, activeStepIndex, nextStep, initializeStep } =
+    useStepper(StepperList);
+
+  const {
+    sigRequestInput,
+    createSignatureRequestInputHandler,
+    initializeSigRequestInput,
+  } = useCreateSignatureRequestInput();
+  const { sigRequest, createSignatureRequestHandler, initializeSigRequest } =
     useCreateSignatureRequest();
   const { blindVc, issueBlindVcHandler } = useIssueBlindUnboundVc();
   const { unblindedVc, unblindVcHandler } = useUnblindBoundVc();
   const { verifyStatus, verifyVcHandler } = useVerifyBoundVc();
-  const { verifySignatureRequestHandler } = useVerifySignatureRequest();
+  const { sigRequestStatus, verifySignatureRequestHandler } =
+    useVerifySignatureRequest();
 
   const closeHandler = () => {
     props.closeHandler();
+    /** @description wait till dialog is closed */
+    setTimeout(() => {
+      initializeSigRequestInput();
+      initializeSigRequest();
+      // initializeResult();
+      initializeStep();
+    }, 500);
+  };
+
+  const buttonHandler = async () => {
+    if (activeStep === "AgreeCred") {
+      await createSignatureRequestInputHandler(
+        props.inputDocument,
+        IssuerKeyObj.didkey
+      );
+      nextStep();
+    } else if (activeStep === "CreateCommitment") {
+      if (!sigRequestInput) return;
+      console.log("FIXME request for creating commitment to wallet");
+      await createSignatureRequestHandler(sigRequestInput);
+      nextStep();
+    } else if (activeStep === "ReceiveCommitment") {
+      if (!sigRequestInput) return;
+      if (!sigRequest) return;
+      await verifySignatureRequestHandler({
+        ...sigRequest,
+        publicKey: issuerKey,
+        nonce: sigRequestInput.nonce,
+        messageCount: sigRequestInput.messageCount,
+      });
+      await issueBlindVcHandler(props.inputDocument, sigRequest.commitment);
+      nextStep();
+    } else if (activeStep === "SaveVc") {
+      if (!blindVc) return;
+      nextStep();
+    } else {
+      closeHandler();
+    }
   };
 
   return (
@@ -45,47 +103,69 @@ export const BoundDialog: React.FC<Props> = memo((props) => {
       open={props.open}
       onClose={closeHandler}
       fullWidth={true}
-      maxWidth="sm"
+      maxWidth="md"
     >
       <DialogTitle>
-        <CustomizedSteppers steps={StepperTitles} activeStep={activeStep} />
+        <CustomizedSteppers
+          steps={StepperTitles.map((e) => t(e))}
+          activeStep={activeStepIndex}
+        />
+        {sigRequestStatus}
       </DialogTitle>
-      <DialogContentText>{verifyStatus}</DialogContentText>
-      <DialogActions>
-        <Button onClick={async () => await createSignatureRequestHandler()}>
-          Sign Requesr
-        </Button>
-        <Button
-          onClick={async () =>
-            await verifySignatureRequestHandler({
-              commitment: sigRequest?.commitment,
-              proofOfHiddenMessages: sigRequest?.proofOfHiddenMessages,
-              challengeHash: sigRequest?.challengeHash,
-              // nonce: "dummy",
-              // publicKey: None,
-            })
+      {activeStep === "AgreeCred" ? (
+        <AgreeCredential
+          title={t(StepperInfo[activeStep].title)}
+          contentTextList={StepperInfo[activeStep].contentTextList?.map((e) =>
+            t(e)
+          )}
+          inputDocument={props.inputDocument}
+          btnText={t(StepperInfo[activeStep].btnText)}
+          onClick={buttonHandler}
+        />
+      ) : null}
+      {activeStep === "CreateCommitment" && sigRequestInput ? (
+        <CreateCommitment
+          title={t(StepperInfo[activeStep].title)}
+          contentTextList={StepperInfo[activeStep].contentTextList?.map((e) =>
+            t(e)
+          )}
+          signatureRequestInput={sigRequestInput}
+          btnText={t(StepperInfo[activeStep].btnText)}
+          onClick={buttonHandler}
+        />
+      ) : null}
+      {activeStep === "ReceiveCommitment" && sigRequest ? (
+        <ReceiveCommitment
+          title={t(StepperInfo[activeStep].title)}
+          contentTextList={StepperInfo[activeStep].contentTextList?.map((e) =>
+            t(e)
+          )}
+          signatureRequest={sigRequest}
+          btnText={t(StepperInfo[activeStep].btnText)}
+          onClick={buttonHandler}
+        />
+      ) : null}
+      {activeStep === "SaveVc" && blindVc ? (
+        <SaveVc
+          title={t(StepperInfo[activeStep].title)}
+          contentTextList={StepperInfo[activeStep].contentTextList?.map((e) =>
+            t(e)
+          )}
+          vc={blindVc}
+          btnText={t(StepperInfo[activeStep].btnText)}
+          onClick={buttonHandler}
+        />
+      ) : null}
+      {activeStep === "ViewFinal" ? (
+        <ViewFinal
+          title={
+            "仮"
+            // storeResult !== null ? t("viewFinal.success") : t("viewFinal.fail")
           }
-        >
-          Verify Request
-        </Button>
-        <Button
-          onClick={async () =>
-            await issueBlindVcHandler(MovieDocument, sigRequest?.commitment)
-          }
-        >
-          Issue VC
-        </Button>
-        <Button
-          onClick={async () =>
-            await unblindVcHandler(blindVc!, sigRequest?.blindingFactor)
-          }
-        >
-          Unblind VC
-        </Button>
-        <Button onClick={async () => await verifyVcHandler(unblindedVc!)}>
-          Verify VC
-        </Button>
-      </DialogActions>
+          btnText={t(StepperInfo[activeStep].btnText)}
+          onClick={buttonHandler}
+        />
+      ) : null}
     </Dialog>
   );
 });
