@@ -10,7 +10,7 @@ import {
   didkeyDocuments,
   overrideDocumentLoader,
 } from "@/libs/document-loader";
-import { base64ToUint8Array } from "@/libs/utils/uint8-base64";
+import { base64ToUint8Array } from "@/libs/utils";
 
 import { HolderKeyObj } from "../../../../test/fixtures";
 import { countMessages } from "../count-messages";

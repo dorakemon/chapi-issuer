@@ -7,9 +7,11 @@ import {
 import { Bls12381G2KeyPair } from "@zkp-ld/bls12381-key-pair";
 
 import { SignatureRequest } from "@/domain/models";
-
-import { strToUint8arr } from "../utils";
-import { base64ToUint8Array, uint8ArrayToBase64 } from "../utils/uint8-base64";
+import {
+  strToUint8arr,
+  base64ToUint8Array,
+  uint8ArrayToBase64,
+} from "@/libs/utils";
 
 import { bufferToTypedBytes } from "./utilities";
 

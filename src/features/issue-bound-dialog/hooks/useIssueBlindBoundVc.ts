@@ -6,7 +6,7 @@ import { useCallback, useState } from "react";
 import { IssuerKeyObj } from "@/domain/constants";
 import { InputDocument, VCType } from "@/domain/models";
 import { overrideDocumentLoader } from "@/libs/document-loader";
-import { base64ToUint8Array } from "@/libs/utils/uint8-base64";
+import { base64ToUint8Array } from "@/libs/utils";
 
 export const useIssueBlindUnboundVc = () => {
   const [blindVc, setBlindVc] = useState<VCType | null>(null);

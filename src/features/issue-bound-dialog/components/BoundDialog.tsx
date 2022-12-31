@@ -12,8 +12,6 @@ import { StepperInfo, StepperList, StepperTitles } from "../constants/stepper";
 import { useCreateSignatureRequest } from "../hooks/useCreateSignatureRequest";
 import { useCreateSignatureRequestInput } from "../hooks/useCreateSignatureRequestInput";
 import { useIssueBlindUnboundVc } from "../hooks/useIssueBlindBoundVc";
-import { useUnblindBoundVc } from "../hooks/useUnblindBoundVc";
-import { useVerifyBoundVc } from "../hooks/useVerifyBoundVc";
 import { useVerifySignatureRequest } from "../hooks/useVerifySignatureRequest";
 
 import { AgreeCredential } from "./steppers/AgreeCredential";
@@ -51,8 +49,6 @@ export const BoundDialog: React.FC<Props> = memo((props) => {
   const { sigRequest, createSignatureRequestHandler, initializeSigRequest } =
     useCreateSignatureRequest();
   const { blindVc, issueBlindVcHandler } = useIssueBlindUnboundVc();
-  const { unblindedVc, unblindVcHandler } = useUnblindBoundVc();
-  const { verifyStatus, verifyVcHandler } = useVerifyBoundVc();
   const { sigRequestStatus, verifySignatureRequestHandler } =
     useVerifySignatureRequest();
 

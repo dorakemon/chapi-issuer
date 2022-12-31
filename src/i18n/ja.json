@@ -56,22 +56,30 @@
       "verifyStatus.unchecked": "未検証"
     },
     "issueUnbound": {
-      "step.agreeCred": "受け取るクレデンシャルの同意",
-      "step.saveVc": "VCの保存",
-      "step.viewFinal": "完了",
-      "agreeCred.title": "受け取るクレデンシャル",
-      "agreeCred.cont1": "Issuerから提示されたVCの中身です",
-      "agreeCred.cont2": "発行に同意をしますか?",
-      "agreeCred.btn": "同意",
-      "saveVc.title": "受け取るクレデンシャル",
-      "saveVc.cont1": "Issuerにより作成されたVCを検証します",
-      "saveVc.cont2": "VCをWalletに保存しますか?",
-      "saveVc.btn": "VCの保存",
-      "saveVc.verifyBtn": "検証する",
-      "viewFinal.title": "レスポンス",
-      "viewFinal.btn": "閉じる",
-      "viewFinal.success": "保存に成功しました",
-      "viewFinal.fail": "保存に失敗しました",
+      "step": {
+        "agreeCred": "受け取るクレデンシャルの同意",
+        "saveVc": "VCの保存",
+        "viewFinal": "完了"
+      },
+      "agreeCred": {
+        "title": "受け取るクレデンシャル",
+        "cont1": "Issuerから提示されたVCの中身です",
+        "cont2": "発行に同意をしますか?",
+        "btn": "同意"
+      },
+      "saveVc": {
+        "title": "受け取るクレデンシャル",
+        "cont1": "Issuerにより作成されたVCを検証します",
+        "cont2": "VCをWalletに保存しますか?",
+        "btn": "VCの保存",
+        "verifyBtn": "検証する"
+      },
+      "viewFinal": {
+        "title": "レスポンス",
+        "btn": "閉じる",
+        "success": "保存に成功しました",
+        "fail": "保存に失敗しました"
+      },
       "verifyStatus.valid": "検証成功",
       "verifyStatus.invalid": "検証失敗",
       "verifyStatus.unchecked": "未検証"
