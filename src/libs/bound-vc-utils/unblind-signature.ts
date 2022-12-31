@@ -1,6 +1,6 @@
 import { unblindBoundedBlsSignature } from "@zkp-ld/bbs-signatures";
 
-import { base64ToUint8Array, uint8ArrayToBase64 } from "../utils/uint8-base64";
+import { base64ToUint8Array, uint8ArrayToBase64 } from "@/libs/utils";
 
 type UnblindProps = { signature: string; blindingFactorStr: string };
 

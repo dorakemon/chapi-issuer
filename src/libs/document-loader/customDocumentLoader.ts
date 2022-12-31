@@ -3,6 +3,7 @@ import { extendContextLoader } from "jsonld-signatures";
 
 import bbsTermwiseContext from "./contexts/bbs-termwise-2021.json";
 import bbsContext from "./contexts/bbs.json";
+import boundBbsTermwiseContext from "./contexts/bound-bbs-termwise-2022.json";
 import citizenVocab from "./contexts/citizen_vocab.json";
 import credentialContext from "./contexts/credential_vocab.json";
 import jwsContext from "./contexts/jws.json";
@@ -52,6 +53,7 @@ export const _builtinContexts = {
   "https://www.w3.org/2018/credentials/examples/v1": vcExampleContext,
   "https://www.w3.org/ns/odrl.jsonld": odrlContext,
   "https://zkp-ld.org/bbs-termwise-2021.jsonld": bbsTermwiseContext,
+  "https://zkp-ld.org/bound-bbs-termwise-2022.jsonld": boundBbsTermwiseContext,
   "https://sako-lab.jp/ssi-iot-demo/context.jsonld": bbsTermwiseContext,
   "https://w3id.org/security/suites/bls12381-2020/v1": bbsContext,
   "https://w3id.org/security/suites/jws-2020/v1": jwsContext,

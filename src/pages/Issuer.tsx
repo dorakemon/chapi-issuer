@@ -1,15 +1,17 @@
 // import * as CredentialHandlerPolyfill from "credential-handler-polyfill";
 // import * as WebCredentialHandler from "web-credential-handler";
 
-import { useState } from "react";
+import { lazy, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { InputDocumentCard } from "@/components/InputDocumentCard";
 import { IssuerPageLauout, CardGridLayout } from "@/components/Layout";
 import { InputDocumentCardList, MovieDocument } from "@/domain/constants";
-import { BoundDialog } from "@/features/issue-bound-dialog";
-import { UnboundDialog } from "@/features/issue-unbound-dialog";
+import { InputDocument } from "@/domain/models";
 import { useCredentialHandler } from "@/hooks";
+
+const BoundDialog = lazy(() => import("@/features/issue-bound-dialog"));
+const UnboundDialog = lazy(() => import("@/features/issue-unbound-dialog"));
 
 export const Issuer = () => {
   useCredentialHandler();
@@ -18,8 +20,13 @@ export const Issuer = () => {
 
   const [openBound, setOpenBound] = useState(false);
   const [openUnbound, setOpenUnbound] = useState(false);
+  const [inputDoc, setInputDoc] = useState(MovieDocument);
 
-  const issueButtonHandler = async (isBound: boolean) => {
+  const issueButtonHandler = async (
+    isBound: boolean,
+    inputDoc: InputDocument
+  ) => {
+    setInputDoc(inputDoc);
     if (isBound) {
       setOpenBound(true);
     } else {
@@ -34,7 +41,9 @@ export const Issuer = () => {
           <InputDocumentCard
             title={t(card.title)}
             image={card.image}
-            onIssueClicked={() => issueButtonHandler(card.isBound)}
+            onIssueClicked={() =>
+              issueButtonHandler(card.isBound, card.inputDoc)
+            }
             key={index}
           />
         ))}
@@ -42,12 +51,12 @@ export const Issuer = () => {
       <BoundDialog
         open={openBound}
         closeHandler={() => setOpenBound(false)}
-        inputDocument={MovieDocument}
+        inputDocument={inputDoc}
       />
       <UnboundDialog
         open={openUnbound}
         closeHandler={() => setOpenUnbound(false)}
-        inputDocument={MovieDocument}
+        inputDocument={inputDoc}
       />
     </IssuerPageLauout>
   );

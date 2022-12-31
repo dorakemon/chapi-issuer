@@ -1,1 +1,1 @@
-export { BoundDialog } from "./components/BoundDialog";
+export { BoundDialog as default } from "./components/BoundDialog";

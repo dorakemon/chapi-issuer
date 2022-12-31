@@ -1,3 +1,5 @@
+import { CircularProgress } from "@mui/material";
+import { Suspense } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 type AppProviderProps = {
@@ -5,5 +7,9 @@ type AppProviderProps = {
 };
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  return <Router>{children}</Router>;
+  return (
+    <Suspense fallback={<CircularProgress />}>
+      <Router>{children}</Router>
+    </Suspense>
+  );
 };

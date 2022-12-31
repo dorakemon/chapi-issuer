@@ -1,1 +1,1 @@
-export { UnboundDialog } from "./components/UnboundDialog";
+export { UnboundDialog as default } from "./components/UnboundDialog";
