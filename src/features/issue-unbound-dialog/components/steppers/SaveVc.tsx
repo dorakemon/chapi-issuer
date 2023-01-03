@@ -2,7 +2,6 @@ import Editor, { useMonaco } from "@monaco-editor/react";
 import "monaco-themes/themes/Monokai.json";
 import {
   Button,
-  Chip,
   DialogActions,
   DialogContent,
   DialogContentText,
@@ -12,14 +11,13 @@ import {
 } from "@mui/material";
 import { memo, useEffect } from "react";
 
-import { VCType } from "@/domain/models";
+import { StatusChip } from "@/components/StatusChip";
+import { VCType, VerifyStatus } from "@/domain/models";
 
 type Props = {
   title: string;
   contentTextList?: string[];
-  chipText: string;
-  chipColor: "info" | "success" | "warning" | "error";
-  chipVariant: "filled" | "outlined";
+  verifyStatus: VerifyStatus;
   vc: VCType;
   setVc: (vc: VCType) => void;
   setVcFormatError: (b: boolean) => void;
@@ -59,11 +57,7 @@ export const SaveVc: React.FC<Props> = memo((props) => {
       <DialogTitle>
         <Grid container justifyContent="space-between">
           <Typography>{props.title}</Typography>
-          <Chip
-            label={props.chipText}
-            color={props.chipColor}
-            variant={props.chipVariant}
-          />
+          <StatusChip status={props.verifyStatus} />
         </Grid>
       </DialogTitle>
       <DialogContent sx={{ cursor: "none" }}>

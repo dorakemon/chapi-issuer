@@ -7,7 +7,6 @@ import { InputDocument } from "@/domain/models";
 import { useStepper } from "@/hooks";
 
 import { StepperInfo, StepperList, StepperTitles } from "../constants/stepper";
-import { VerifyChipStyle } from "../constants/verify-status";
 import { useIssueUnboundVc } from "../hooks/useIssueUnboundVc";
 import { useStoreUnboundVc } from "../hooks/useStoreUnboundVc";
 import { useVerifyUnboundVc } from "../hooks/useVerifyUnboundVc";
@@ -108,9 +107,7 @@ export const UnboundDialog: React.FC<Props> = memo((props) => {
           vc={vc}
           setVc={setVc}
           setVcFormatError={setVcFormatError}
-          chipText={t(VerifyChipStyle[verifyStatus].text)}
-          chipColor={VerifyChipStyle[verifyStatus].color}
-          chipVariant={VerifyChipStyle[verifyStatus].variant}
+          verifyStatus={verifyStatus}
           btnText={t(StepperInfo[activeStep].btnText)}
           btnDisabled={verifyStatus !== "valid"}
           onClick={buttonHandler}

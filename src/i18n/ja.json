@@ -12,6 +12,11 @@
   "components": {
     "inputDocumentCard": {
       "button": "発行"
+    },
+    "statusChip": {
+      "valid": "検証成功",
+      "invalid": "検証失敗",
+      "unchecked": "未検証"
     }
   },
   "features": {
@@ -50,10 +55,7 @@
       "viewFinal": {
         "title": "レスポンス",
         "btn": "閉じる"
-      },
-      "verifyStatus.valid": "検証成功",
-      "verifyStatus.invalid": "検証失敗",
-      "verifyStatus.unchecked": "未検証"
+      }
     },
     "issueUnbound": {
       "step": {
@@ -77,12 +79,9 @@
       "viewFinal": {
         "title": "レスポンス",
         "btn": "閉じる",
-        "success": "保存に成功しました",
-        "fail": "保存に失敗しました"
-      },
-      "verifyStatus.valid": "検証成功",
-      "verifyStatus.invalid": "検証失敗",
-      "verifyStatus.unchecked": "未検証"
+        "success": "正常終了しました",
+        "fail": "異常終了しました"
+      }
     }
   }
 }

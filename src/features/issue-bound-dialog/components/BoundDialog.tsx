@@ -9,9 +9,10 @@ import { InputDocument } from "@/domain/models";
 import { useStepper } from "@/hooks";
 
 import { StepperInfo, StepperList, StepperTitles } from "../constants/stepper";
-import { useCreateSignatureRequest } from "../hooks/useCreateSignatureRequest";
 import { useCreateSignatureRequestInput } from "../hooks/useCreateSignatureRequestInput";
 import { useIssueBlindUnboundVc } from "../hooks/useIssueBlindBoundVc";
+import { useStoreBoundVc } from "../hooks/useStoreBoundVc";
+import { useStoreSignatureRequest } from "../hooks/useStoreSignatureRequest";
 import { useVerifySignatureRequest } from "../hooks/useVerifySignatureRequest";
 
 import { AgreeCredential } from "./steppers/AgreeCredential";
@@ -46,19 +47,19 @@ export const BoundDialog: React.FC<Props> = memo((props) => {
     createSignatureRequestInputHandler,
     initializeSigRequestInput,
   } = useCreateSignatureRequestInput();
-  const { sigRequest, createSignatureRequestHandler, initializeSigRequest } =
-    useCreateSignatureRequest();
+  const { storeSigReqResult, storeSigReqHandler, initSigReqResult } =
+    useStoreSignatureRequest();
   const { blindVc, issueBlindVcHandler } = useIssueBlindUnboundVc();
   const { sigRequestStatus, verifySignatureRequestHandler } =
     useVerifySignatureRequest();
+  const { storeVcHandler } = useStoreBoundVc();
 
   const closeHandler = () => {
     props.closeHandler();
     /** @description wait till dialog is closed */
     setTimeout(() => {
       initializeSigRequestInput();
-      initializeSigRequest();
-      // initializeResult();
+      initSigReqResult();
       initializeStep();
     }, 500);
   };
@@ -72,22 +73,26 @@ export const BoundDialog: React.FC<Props> = memo((props) => {
       nextStep();
     } else if (activeStep === "CreateCommitment") {
       if (!sigRequestInput) return;
-      console.log("FIXME request for creating commitment to wallet");
-      await createSignatureRequestHandler(sigRequestInput);
-      nextStep();
-    } else if (activeStep === "ReceiveCommitment") {
-      if (!sigRequestInput) return;
-      if (!sigRequest) return;
+      const _sigReqest = await storeSigReqHandler(sigRequestInput);
       await verifySignatureRequestHandler({
-        ...sigRequest,
+        ..._sigReqest,
         publicKey: issuerKey,
         nonce: sigRequestInput.nonce,
         messageCount: sigRequestInput.messageCount,
       });
-      await issueBlindVcHandler(props.inputDocument, sigRequest.commitment);
+      nextStep();
+    } else if (activeStep === "ReceiveCommitment") {
+      if (!sigRequestInput) return;
+      if (!storeSigReqResult) return;
+      await issueBlindVcHandler(
+        props.inputDocument,
+        storeSigReqResult.commitment
+      );
       nextStep();
     } else if (activeStep === "SaveVc") {
+      if (!sigRequestInput) return;
       if (!blindVc) return;
+      await storeVcHandler(blindVc, sigRequestInput.nonce);
       nextStep();
     } else {
       closeHandler();
@@ -106,7 +111,6 @@ export const BoundDialog: React.FC<Props> = memo((props) => {
           steps={StepperTitles.map((e) => t(e))}
           activeStep={activeStepIndex}
         />
-        {sigRequestStatus}
       </DialogTitle>
       {activeStep === "AgreeCred" ? (
         <AgreeCredential
@@ -130,13 +134,14 @@ export const BoundDialog: React.FC<Props> = memo((props) => {
           onClick={buttonHandler}
         />
       ) : null}
-      {activeStep === "ReceiveCommitment" && sigRequest ? (
+      {activeStep === "ReceiveCommitment" && storeSigReqResult ? (
         <ReceiveCommitment
           title={t(StepperInfo[activeStep].title)}
           contentTextList={StepperInfo[activeStep].contentTextList?.map((e) =>
             t(e)
           )}
-          signatureRequest={sigRequest}
+          signatureRequest={storeSigReqResult}
+          verifyStatus={sigRequestStatus}
           btnText={t(StepperInfo[activeStep].btnText)}
           onClick={buttonHandler}
         />

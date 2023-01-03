@@ -2,15 +2,15 @@ import { useCallback, useState } from "react";
 
 import { VCType } from "@/domain/models";
 
-export const useStoreUnboundVc = () => {
-  const [storeResult, setStoreResult] = useState<Credential | null>(null);
+export const useStoreBoundVc = () => {
+  const [storeVcResult, setStoreVcResult] = useState<Credential | null>(null);
 
-  const initializeResult = useCallback(() => setStoreResult(null), []);
+  const initStoreVcResult = useCallback(() => setStoreVcResult(null), []);
 
-  const storeHandler = async (vc: VCType) => {
+  const storeVcHandler = async (vc: VCType, nonce: string) => {
     const webCredentialWrapper = new window.WebCredential(
-      "VerifiableCredential",
-      vc,
+      "BoundVerifiableCredential",
+      { vc, nonce },
       {
         recommendedHandlerOrigins: ["https://chapi-wallet.web.app"],
       }
@@ -22,7 +22,7 @@ export const useStoreUnboundVc = () => {
     );
 
     console.log("Result of receiving via store() request:", result);
-    setStoreResult(result);
+    setStoreVcResult(result);
   };
-  return { storeResult, storeHandler, initializeResult };
+  return { storeVcResult, storeVcHandler, initStoreVcResult };
 };

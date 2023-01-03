@@ -2,13 +2,17 @@ import { Bls12381G2KeyPair } from "@zkp-ld/bls12381-key-pair";
 import { useCallback, useState } from "react";
 
 import { IssuerKeyObj } from "@/domain/constants";
-import { SignatureRequest, SignatureRequestInput } from "@/domain/models";
+import {
+  SignatureRequestInput,
+  SignatureRequestWithBlindingFactor,
+} from "@/domain/models";
 import { createSignatureRequest } from "@/libs/bound-vc-utils";
 
 import { HolderKeyObj } from "../../../../test/fixtures";
 
 export const useCreateSignatureRequest = () => {
-  const [sigRequest, setSigRequest] = useState<SignatureRequest | null>(null);
+  const [sigRequest, setSigRequest] =
+    useState<SignatureRequestWithBlindingFactor | null>(null);
 
   const initializeSigRequest = useCallback(() => setSigRequest(null), []);
 
@@ -30,6 +34,7 @@ export const useCreateSignatureRequest = () => {
       nonce: props.nonce,
     });
     setSigRequest(signatureRequest);
+    return signatureRequest;
   };
 
   return {

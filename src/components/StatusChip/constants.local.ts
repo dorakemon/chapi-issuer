@@ -1,4 +1,4 @@
-export type VerifyStatus = "valid" | "invalid" | "unchecked";
+import { VerifyStatus } from "@/domain/models";
 
 export const VerifyChipStyle: Record<
   VerifyStatus,
@@ -9,17 +9,17 @@ export const VerifyChipStyle: Record<
   }
 > = {
   valid: {
-    text: "verifyStatus.valid",
+    text: "valid",
     color: "success",
     variant: "filled",
   },
   invalid: {
-    text: "verifyStatus.invalid",
+    text: "invalid",
     color: "error",
     variant: "filled",
   },
   unchecked: {
-    text: "verifyStatus.unchecked",
+    text: "unchecked",
     color: "warning",
     variant: "outlined",
   },

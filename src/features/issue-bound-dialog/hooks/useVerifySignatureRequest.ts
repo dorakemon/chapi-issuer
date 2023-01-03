@@ -1,12 +1,11 @@
 import { Bls12381G2KeyPair } from "@zkp-ld/bls12381-key-pair";
 import { useCallback, useState } from "react";
 
+import { VerifyStatus } from "@/domain/models";
 import {
   verifySignatureRequest,
   VerifySignatureRequetProps,
 } from "@/libs/bound-vc-utils";
-
-import { VerifyStatus } from "../constants/verify-status";
 
 export const useVerifySignatureRequest = () => {
   const [sigRequestStatus, setSigRequestStatus] =

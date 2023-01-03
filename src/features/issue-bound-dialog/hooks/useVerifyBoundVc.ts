@@ -5,7 +5,7 @@ import {
 import jsigs from "jsonld-signatures";
 import { useState } from "react";
 
-import { VCType } from "@/domain/models";
+import { VCType, VerifyStatus } from "@/domain/models";
 import { bufferToTypedBytes } from "@/libs/bound-vc-utils/utilities";
 import {
   didkeyDocuments,
@@ -13,7 +13,6 @@ import {
 } from "@/libs/document-loader";
 
 import { HolderKeyObj } from "../../../../test/fixtures";
-import { VerifyStatus } from "../constants/verify-status";
 
 export const useVerifyBoundVc = () => {
   const [verifyStatus, setVerifyStatus] = useState<VerifyStatus>("unchecked");

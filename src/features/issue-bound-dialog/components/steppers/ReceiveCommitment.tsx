@@ -11,12 +11,14 @@ import { memo } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 
-import { SignatureRequest } from "@/domain/models";
+import { StatusChip } from "@/components/StatusChip";
+import { SignatureRequest, VerifyStatus } from "@/domain/models";
 
 type Props = {
   title: string;
   contentTextList?: string[];
   signatureRequest: SignatureRequest;
+  verifyStatus: VerifyStatus;
   btnText: string;
   onClick: () => void;
 };
@@ -29,6 +31,7 @@ export const ReceiveCommitment: React.FC<Props> = memo((props) => {
       <DialogTitle>
         <Grid container justifyContent="space-between">
           <Typography>{props.title}</Typography>
+          <StatusChip status={props.verifyStatus} />
         </Grid>
       </DialogTitle>
       <DialogContent sx={{ height: "65px" }}>
