@@ -26,7 +26,7 @@ export const useIssueBlindUnboundVc = () => {
     const commitment = base64ToUint8Array(commitmentStr);
     const issuedVC: VCType = await jsigs.sign(
       // NOTE: credentialのissuerをdidkeyのcontrollerに変更する
-      { ...inputDocument, issuer: keyObj.controller },
+      { ...inputDocument },
       {
         suite: new BoundBbsTermwiseSignature2022({
           key: keyObj,

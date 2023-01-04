@@ -24,7 +24,7 @@ export const useIssueUnboundVc = () => {
     });
     const issuedVC: VCType = await jsigs.sign(
       // NOTE: credentialのissuerをdidkeyのcontrollerに変更する
-      { ...inputDocument, issuer: keyObj.controller },
+      { ...inputDocument },
       {
         suite: new BbsTermwiseSignature2021({ key: keyObj }),
         purpose: new jsigs.purposes.AssertionProofPurpose(),
