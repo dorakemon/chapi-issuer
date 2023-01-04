@@ -6,7 +6,8 @@
   },
   "pages": {
     "issuer": {
-      "title": "Verifiable Credentialの発行"
+      "title": "Verifiable Credentialの発行",
+      "subtitle": "本ページではBBS+署名を利用したHolder-Binding機能付き(Bound)VCの発行とその機能のない(Unbound)VCの発行のデモを行えます"
     }
   },
   "components": {

@@ -35,7 +35,10 @@ export const Issuer = () => {
   };
 
   return (
-    <IssuerPageLauout title={t("pages.issuer.title")}>
+    <IssuerPageLauout
+      title={t("pages.issuer.title")}
+      subtitle={t("pages.issuer.subtitle")}
+    >
       <CardGridLayout>
         {InputDocumentCardList.map((card, index) => (
           <InputDocumentCard
