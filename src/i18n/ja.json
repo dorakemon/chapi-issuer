@@ -2,7 +2,8 @@
   "consts": {
     "studentCardBound": "学生証 (bound)",
     "driverCardBound": "運転免許証 (bound)",
-    "movieTicketUnbound": "映画館のチケット (unbound)"
+    "movieTicketUnbound": "映画館のチケット (unbound)",
+    "voucherTicketUnbound": "クーポン券 (unbound)"
   },
   "pages": {
     "issuer": {

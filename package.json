@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "test": "vitest run",
     "test:watch": "vitesst",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "publish:build": "tsc && vite build && firebase deploy"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

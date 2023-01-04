@@ -21,13 +21,6 @@ import { ReceiveCommitment } from "./steppers/ReceiveCommitment";
 import { SaveVc } from "./steppers/SaveVc";
 import { ViewFinal } from "./steppers/ViewFinal";
 
-const issuerKey = await Bls12381G2KeyPair.fromJwk({
-  id: IssuerKeyObj.didkey,
-  controller: IssuerKeyObj.controller,
-  publicKeyJwk: IssuerKeyObj.public,
-  privateKeyJwk: IssuerKeyObj.private,
-});
-
 type Props = {
   open: boolean;
   closeHandler: () => void;
@@ -73,6 +66,12 @@ export const BoundDialog: React.FC<Props> = memo((props) => {
       nextStep();
     } else if (activeStep === "CreateCommitment") {
       if (!sigRequestInput) return;
+      const issuerKey = await Bls12381G2KeyPair.fromJwk({
+        id: IssuerKeyObj.didkey,
+        controller: IssuerKeyObj.controller,
+        publicKeyJwk: IssuerKeyObj.public,
+        privateKeyJwk: IssuerKeyObj.private,
+      });
       const _sigReqest = await storeSigReqHandler(sigRequestInput);
       await verifySignatureRequestHandler({
         ..._sigReqest,
