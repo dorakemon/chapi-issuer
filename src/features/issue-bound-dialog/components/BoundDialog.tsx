@@ -159,7 +159,7 @@ export const BoundDialog: React.FC<Props> = memo((props) => {
       {activeStep === "ViewFinal" ? (
         <ViewFinal
           title={
-            "仮"
+            ""
             // storeResult !== null ? t("viewFinal.success") : t("viewFinal.fail")
           }
           btnText={t(StepperInfo[activeStep].btnText)}

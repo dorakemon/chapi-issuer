@@ -1,12 +1,89 @@
 {
-  "shared": {},
+  "consts": {
+    "studentCardBound": "Student Card (bound)",
+    "driverCardBound": "Driver License Card (bound)",
+    "movieTicketUnbound": "Movie Theater Ticket (unbound)",
+    "voucherTicketUnbound": "Voucher Ticket (unbound)"
+  },
   "pages": {
     "issuer": {
-      "title": "Issue Verifiable Credential"
+      "title": "Issuance of Verifiable Credential",
+      "subtitle": "On this page you can demo issuing Holder-Bound VC and Unbound VC using BBS+Signature."
     }
   },
-  "components": {},
+  "components": {
+    "inputDocumentCard": {
+      "button": "issue"
+    },
+    "statusChip": {
+      "valid": "Accepted",
+      "invalid": "Rejected",
+      "unchecked": "Unchecked"
+    }
+  },
   "features": {
-    "issueUnboundDialog": {}
+    "issueBound": {
+      "step": {
+        "agreeCred": "Agree to the credential to receive",
+        "createCommitment": "Create a commitment",
+        "receiveCommitment": "Validate the commitment",
+        "saveVc": "Save VC",
+        "viewFinal": "Complete"
+      },
+      "agreeCred": {
+        "title": "Credential to receive",
+        "cont1": "The contents of the VC as presented by the Issuer",
+        "cont2": "Do you agree to issue?",
+        "btn": "Agree"
+      },
+      "createCommitment": {
+        "title": "Parameters for creating commitment",
+        "cont1": "These are the parameters for creating a commitment presented by Issuer",
+        "cont2": "Do you want to create a commitment using these parameters?",
+        "btn": "Create"
+      },
+      "receiveCommitment": {
+        "title": "Validate Commitment",
+        "cont1": "The Issuer verifies the commitment created by the Holder",
+        "cont2": "VC will be issued if the validation is successful",
+        "btn": "Issue"
+      },
+      "saveVc": {
+        "title": "Credential to receive",
+        "cont1": "Save VC to Wallet?",
+        "cont2": "",
+        "btn": "Save VC"
+      },
+      "viewFinal": {
+        "title": "Response",
+        "btn": "Close"
+      }
+    },
+    "issueUnbound": {
+      "step": {
+        "agreeCred": "Agree to the credential to receive",
+        "saveVc": "Save VC",
+        "viewFinal": "Complete"
+      },
+      "agreeCred": {
+        "title": "Credential to receive",
+        "cont1": "The contents of the VC as presented by the Issuer",
+        "cont2": "Do you agree to issue?",
+        "btn": "Agree"
+      },
+      "saveVc": {
+        "title": "Credential to receive",
+        "cont1": "I validate the VC created by Issuer",
+        "cont2": "Do you want to save the VC to Wallet?",
+        "btn": "Save VC",
+        "verifyBtn": "Verify"
+      },
+      "viewFinal": {
+        "title": "Response",
+        "btn": "Close",
+        "success": "Successfully completed",
+        "fail": "Abnormal close"
+      }
+    }
   }
 }
